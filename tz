@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# --- CONFIGURATION OPTIONS ----------------------------------------------------#
+# File where tizonia will have its output redirected
+TIZONIA_LOG=~/tizonia.out
+
+# Available parameters for STATUS_FORMAT:
+#   %TRACKNAME%
+#   %ALBUM%
+#   %ARTIST%
+#   %TRACKNO%
+
+STATUS_FORMAT="▶ %TRACKNAME% - %ARTIST%"
+NO_TRACK="⏹ Not playing"
+# -----------------------------------------------------------------------------#
+
+
+showUsage() {
+      printf "Usage:\n   tz artist NAME\n   tz album NAME\n   tz song NAME\n   tz now\n"
+    exit 1
+}
+
+playArtist() {
+    [ -z "$1" ] && showUsage
+    tizonia --spotify-artist "$1" | tee $TIZONIA_LOG; rm $TIZONIA_LOG
+}
+
+playAlbum() {
+    [ -z "$1" ] && showUsage
+    tizonia --spotify-album "$1" | tee $TIZONIA_LOG; rm $TIZONIA_LOG
+}
+
+playSong() {
+    [ -z "$1" ] && showUsage    
+    tizonia --spotify-tracks "$1" | tee $TIZONIA_LOG; rm $TIZONIA_LOG
+}
+
+nowPlaying() {
+    local logtail track trackname trackno status
+
+    trackname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Track | tail -n1 | grep -Po '(?<=Track : ).+(?=  \[)')
+
+    [ -z "$trackname" ] && printf "$NO_TRACK" && return 0
+    
+    trackno=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Track | tail -n1 | grep -Po '\(.+\)')    
+    albumname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Album | tail -n1 | grep -Po '(?<=Album : ).+(?= \[)')
+
+    if [ -z "$albumname" ]
+    then
+	albumname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Album | tail -n1 | grep -Po '(?<=Album : ).+')
+    fi
+
+    artistname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Artist | tail -n1 | grep -Po '(?<=Artist : ).+(?=  \[)')
+    
+    if [ -z "$artistname" ]
+    then
+	artistname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Artist | tail -n1 | grep -Po '(?<=Artist : ).+')
+    fi
+
+    status=$STATUS_FORMAT
+    status=${status/\%TRACKNAME\%/$trackname}
+    status=${status/\%TRACKNO\%/$trackno}
+    status=${status/\%ALBUM\%/$albumname}
+    status=${status/\%ARTIST\%/$artistname}
+
+    printf "$status"
+}
+
+[ -z "$1" ] && showUsage
+
+case $1 in
+    artist) playArtist "$2" ;;
+    album) playAlbum "$2" ;;
+    song) playSong "$2" ;;
+    now) nowPlaying ;;
+esac
+
+
