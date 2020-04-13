@@ -3,7 +3,7 @@ tz is a super simple shell script that outputs the currently playing track in Ti
 
 Here's is a screenshot taken from my own desktop.
 
-![Screenshot](https://github.com/fstilman/tz/screenshot.png)
+![Screenshot](https://github.com/fstilman/tz/raw/master/screenshot.png)
 
 ## Configuration
 
