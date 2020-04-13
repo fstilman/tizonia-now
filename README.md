@@ -1,4 +1,4 @@
-# tizonia-now
+# tz - Get currently playing track on Tizonia
 tz is a super simple shell script that outputs the currently playing track in Tizonia by analyzing Tizonia's output. I use it to show the currently playing track on my DWM status bar. It was written for using Tizonia with Spotify, but it is very easy to use it with other backends.
 
 Here's is a screenshot taken from my own desktop.
