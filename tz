@@ -38,7 +38,7 @@ playSong() {
 nowPlaying() {
     local logtail track trackname trackno status
 
-    trackname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep Track | tail -n1 | grep -Po '(?<=Track : ).+(?=  \[)')
+    trackname=$(tail -n 30 $TIZONIA_LOG 2> /dev/null | grep -Po '(?<=: ).+(?=  \[spotify:track:)' | tail -n 1)
 
     [ -z "$trackname" ] && printf "$NO_TRACK" && return 0
     
@@ -74,5 +74,3 @@ case $1 in
     song) playSong "$2" ;;
     now) nowPlaying ;;
 esac
-
-
