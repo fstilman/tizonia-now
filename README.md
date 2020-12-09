@@ -29,12 +29,12 @@ NO_TRACK="⏹ Not playing"
 
 tz now: returns the currently playing track
 
-tz song NAME: shortcut for tizonia --spotify-tracks NAME | tee $TIZONIA_LOG
+tz song NAME
 
-tz album NAME: shortcut for tizonia --spotify-tracks NAME | tee $TIZONIA_LOG
+tz album NAME
 
-tz artist NAME: shortcut for tizonia --spotify-tracks NAME | tee $TIZONIA_LOG
+tz artist NAME
 
-tz list ID: shortcut for tizonia --spotify-playlist-id ID | tee $TIZONIA_LOG
+tz list ID
 
 Feel free to send any suggestions!
