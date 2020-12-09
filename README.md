@@ -35,4 +35,6 @@ tz album NAME: shortcut for tizonia --spotify-tracks NAME | tee $TIZONIA_LOG
 
 tz artist NAME: shortcut for tizonia --spotify-tracks NAME | tee $TIZONIA_LOG
 
+tz list ID: shortcut for tizonia --spotify-playlist-id ID | tee $TIZONIA_LOG
+
 Feel free to send any suggestions!
